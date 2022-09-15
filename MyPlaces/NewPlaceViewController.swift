@@ -6,20 +6,24 @@
 //
 
 import UIKit
+import Cosmos
 
 class NewPlaceViewController: UITableViewController, UINavigationControllerDelegate {
 
     
-    var currentPlace: Place?
+    var currentPlace: Place!
     var imageIsChanged = false
+    var currentRating = 0.0
     
     
+    @IBOutlet weak var ratingControll: RaitingControl!
     @IBOutlet weak var placeType: UITextField!
     @IBOutlet weak var placeLocation: UITextField!
     @IBOutlet weak var placeName: UITextField!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var placeImage: UIImageView!
-   
+    @IBOutlet weak var cosmosView: CosmosView!
+    
     
     
     override func viewDidLoad() {
@@ -30,6 +34,8 @@ class NewPlaceViewController: UITableViewController, UINavigationControllerDeleg
         saveButton.isEnabled = false        
         placeName.addTarget(self, action: #selector(textFieldChanged), for: .editingChanged)
         setupEditscreen()
+        
+        cosmosView.didTouchCosmos = { rating in self.currentRating = rating }
     }
     //MARK: TableView Delegate
 
@@ -77,13 +83,14 @@ class NewPlaceViewController: UITableViewController, UINavigationControllerDeleg
         
         let imageData = image?.pngData()
         
-        let newPlace = Place(name: placeName.text!, location: placeLocation.text, type: placeType.text, imageData: imageData)
+        let newPlace = Place(name: placeName.text!, location: placeLocation.text, type: placeType.text, imageData: imageData, rating: currentRating)
         if currentPlace != nil {
             try! realm.write {
                 currentPlace?.name = newPlace.name
                 currentPlace?.location = newPlace.location
                 currentPlace?.type = newPlace.type
                 currentPlace?.imageData = newPlace.imageData
+                currentPlace?.rating = newPlace.rating
             } } else {
                 StorageManager.saveObject(newPlace)
             
@@ -101,6 +108,7 @@ class NewPlaceViewController: UITableViewController, UINavigationControllerDeleg
             placeType.text = currentPlace?.type
             placeName.text = currentPlace?.name
             placeLocation.text = currentPlace?.location
+            cosmosView.rating = currentPlace.rating
             
            
         }

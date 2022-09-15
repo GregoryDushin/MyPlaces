@@ -12,7 +12,7 @@
         <scene sceneID="dUI-CC-Shm">
             <objects>
                 <tableViewController id="Pju-0B-3SV" customClass="NewPlaceViewController" customModule="MyPlaces" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="8CC-LF-v5c">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="8CC-LF-v5c">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -146,6 +146,49 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="140" id="z0F-0B-kKb">
+                                        <rect key="frame" x="0.0" y="579.5" width="414" height="140"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z0F-0B-kKb" id="HPG-mD-e3V">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="140"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" placeholderIntrinsicWidth="512" placeholderIntrinsicHeight="44" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Vad-Rv-Ej4" customClass="RaitingControl" customModule="MyPlaces" customModuleProvider="target">
+                                                    <rect key="frame" x="81" y="48" width="252" height="44"/>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="starCount">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </stackView>
+                                                <view contentMode="scaleToFill" placeholderIntrinsicWidth="216" placeholderIntrinsicHeight="72" translatesAutoresizingMaskIntoConstraints="NO" id="zde-5u-9Vb" customClass="CosmosView" customModule="Cosmos">
+                                                    <rect key="frame" x="99" y="34" width="216" height="72"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="72" id="XEN-y1-XGy"/>
+                                                        <constraint firstAttribute="width" constant="216" id="tZb-Vt-0Q3"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="starSize">
+                                                            <real key="value" value="40"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="filledStar"/>
+                                                        <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="emptyStar"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="zde-5u-9Vb" firstAttribute="centerY" secondItem="HPG-mD-e3V" secondAttribute="centerY" id="92k-Rl-9A3"/>
+                                                <constraint firstItem="Vad-Rv-Ej4" firstAttribute="centerX" secondItem="HPG-mD-e3V" secondAttribute="centerX" id="d4J-9H-GMh"/>
+                                                <constraint firstItem="zde-5u-9Vb" firstAttribute="centerX" secondItem="HPG-mD-e3V" secondAttribute="centerX" id="fYa-tk-GLk"/>
+                                                <constraint firstItem="Vad-Rv-Ej4" firstAttribute="centerY" secondItem="HPG-mD-e3V" secondAttribute="centerY" id="s2T-OQ-3h8"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="subviews">
+                                                    <exclude reference="Vad-Rv-Ej4"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -167,17 +210,19 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cosmosView" destination="zde-5u-9Vb" id="tE2-2n-Vur"/>
                         <outlet property="placeImage" destination="U8h-Fm-isC" id="cHo-v7-8LR"/>
                         <outlet property="placeLocation" destination="dAc-dJ-DCh" id="QZG-ls-fmZ"/>
                         <outlet property="placeName" destination="ett-od-ZEa" id="MoI-la-I9f"/>
                         <outlet property="placeType" destination="ooX-n6-Phh" id="WyR-Dh-ciD"/>
+                        <outlet property="ratingControll" destination="Vad-Rv-Ej4" id="gXU-l3-VMP"/>
                         <outlet property="saveButton" destination="Naf-GJ-NfA" id="d9r-RV-1TS"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ihe-9A-6KL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="rpK-0k-Sp6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2367" y="94"/>
+            <point key="canvasLocation" x="2366.666666666667" y="93.75"/>
         </scene>
         <!--My Places-->
         <scene sceneID="nff-E5-wj7">
@@ -228,16 +273,37 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
+                                                <view contentMode="scaleToFill" placeholderIntrinsicWidth="122" placeholderIntrinsicHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RI2-TE-WjZ" customClass="CosmosView" customModule="Cosmos">
+                                                    <rect key="frame" x="262" y="30" width="122" height="22"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="122" id="1qu-EJ-6tk"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
+                                                            <color key="value" systemColor="systemYellowColor"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="emptyColor">
+                                                            <color key="value" systemColor="tertiarySystemGroupedBackgroundColor"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="image" keyPath="filledImage" value="filledStar"/>
+                                                        <userDefinedRuntimeAttribute type="image" keyPath="emptyImage" value="emptyStar"/>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="RI2-TE-WjZ" secondAttribute="bottom" constant="19" id="7RF-HZ-RSL"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="RI2-TE-WjZ" secondAttribute="trailing" constant="10" id="7wr-Pu-aFc"/>
                                                 <constraint firstItem="uwu-sP-3Ey" firstAttribute="leading" secondItem="dGn-qN-ihE" secondAttribute="leading" constant="15" id="NMp-qQ-zCo"/>
                                                 <constraint firstAttribute="bottom" secondItem="XY0-TJ-y74" secondAttribute="bottom" constant="8" id="O8v-t2-wvq"/>
                                                 <constraint firstItem="XY0-TJ-y74" firstAttribute="leading" secondItem="uwu-sP-3Ey" secondAttribute="trailing" constant="16" id="TZK-02-24s"/>
                                                 <constraint firstItem="XY0-TJ-y74" firstAttribute="top" secondItem="dGn-qN-ihE" secondAttribute="top" constant="8" id="XSY-Xd-mev"/>
+                                                <constraint firstItem="RI2-TE-WjZ" firstAttribute="top" secondItem="dGn-qN-ihE" secondAttribute="topMargin" constant="19" id="nAh-pu-XAA"/>
                                                 <constraint firstItem="uwu-sP-3Ey" firstAttribute="centerY" secondItem="dGn-qN-ihE" secondAttribute="centerY" id="w9i-As-wNr"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="cosmosView" destination="RI2-TE-WjZ" id="Inz-Tu-nKA"/>
                                             <outlet property="imageOfPlace" destination="uwu-sP-3Ey" id="TGj-ft-btW"/>
                                             <outlet property="locationLabel" destination="fjU-HB-QaD" id="d0g-bF-Yfh"/>
                                             <outlet property="nameLabel" destination="ezW-BA-OvX" id="Zcl-Lo-F29"/>
@@ -341,14 +407,30 @@
             <point key="canvasLocation" x="2367" y="-674"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="RI2-TE-WjZ">
+            <size key="intrinsicContentSize" width="122" height="22"/>
+        </designable>
+        <designable name="Vad-Rv-Ej4">
+            <size key="intrinsicContentSize" width="512" height="44"/>
+        </designable>
+    </designables>
     <inferredMetricsTieBreakers>
         <segue reference="Rez-ZT-HoB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AZ" width="25" height="24"/>
+        <image name="emptyStar" width="255" height="256"/>
+        <image name="filledStar" width="237.5" height="238"/>
         <image name="photo" catalog="system" width="32" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
