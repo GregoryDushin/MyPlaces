@@ -18,6 +18,7 @@
 		F389B01328C8782C0013BE74 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F389B01228C8782C0013BE74 /* StorageManager.swift */; };
 		F3C6FBA328C72DCD0004B68E /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C6FBA228C72DCD0004B68E /* NewPlaceViewController.swift */; };
 		F3C85AA928D2FED50079702B /* RaitingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C85AA828D2FED50079702B /* RaitingControl.swift */; };
+		F3CE47F028D340DB00B16B7B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3CE47EF28D340DB00B16B7B /* MapViewController.swift */; };
 		FA0A155A3924BE3C82CA7E96 /* Pods_MyPlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24050E84EFB9DE78C2B9B386 /* Pods_MyPlaces.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		F389B01228C8782C0013BE74 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		F3C6FBA228C72DCD0004B68E /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
 		F3C85AA828D2FED50079702B /* RaitingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaitingControl.swift; sourceTree = "<group>"; };
+		F3CE47EF28D340DB00B16B7B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			isa = PBXGroup;
 			children = (
 				F31BF79A28BE24CC007BA1A9 /* Main.storyboard */,
+				F3CE47EF28D340DB00B16B7B /* MapViewController.swift */,
 				F31BF79428BE24CC007BA1A9 /* AppDelegate.swift */,
 				F31BF79628BE24CC007BA1A9 /* SceneDelegate.swift */,
 				F31BF79828BE24CC007BA1A9 /* MainViewController.swift */,
@@ -225,6 +228,7 @@
 				F3C6FBA328C72DCD0004B68E /* NewPlaceViewController.swift in Sources */,
 				F31BF79528BE24CC007BA1A9 /* AppDelegate.swift in Sources */,
 				F389B01328C8782C0013BE74 /* StorageManager.swift in Sources */,
+				F3CE47F028D340DB00B16B7B /* MapViewController.swift in Sources */,
 				F33AC41228C71636005A4B1C /* PlaceModel.swift in Sources */,
 				F33AC41028C3ECE5005A4B1C /* CustomTableViewCell.swift in Sources */,
 				F3C85AA928D2FED50079702B /* RaitingControl.swift in Sources */,
