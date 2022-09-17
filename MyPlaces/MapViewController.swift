@@ -7,12 +7,15 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class MapViewController: UIViewController {
     
     var place = Place()
     
     let annotationIdentifier = "annotationIdentifier"
+    
+    let locationManager = CLLocationManager()
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -22,7 +25,7 @@ class MapViewController: UIViewController {
         
         mapView.delegate = self
         setupPlacemark()
-        
+        checkLocationServises()
         
     }
     
@@ -58,27 +61,76 @@ class MapViewController: UIViewController {
         }
     }
     
+    private func checkLocationServises() {
+        
+        if CLLocationManager.locationServicesEnabled() {
+            setupLocationManager()
+            checkLocationAutorization()
+            
+        }else{
+            
+            let alert = UIAlertController(title: .none, message: "Пожалуйста, включите геолокацию", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        }
+    }
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
     
-}
-
-extension MapViewController : MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !(annotation is MKUserLocation) else {return nil}
-        
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKPinAnnotationView
-        
-        if annotationView == nil  {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-            annotationView?.canShowCallout = true
+   
+    private func checkLocationAutorization() {
+        let manager = CLLocationManager()
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse :
+            mapView.showsUserLocation = true
+            break
+        case .denied :
+            let alert = UIAlertController(title: .none, message: "Пожалуйста, включите геолокацию", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            break
+        case .notDetermined :
+            locationManager.requestWhenInUseAuthorization()
+            break
+        case .restricted:
+            break
+        case .authorizedAlways:
+            break
+        @unknown default:
+            print ("new methods are avaliable")
         }
-        if let imageData = place.imageData {
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-            imageView.layer.cornerRadius = 10
-            imageView.clipsToBounds = true
-            imageView.image = UIImage(data: imageData)
-            annotationView?.rightCalloutAccessoryView = imageView
-        }
         
-        return annotationView
     }
 }
+   
+    
+    extension MapViewController : MKMapViewDelegate {
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            guard !(annotation is MKUserLocation) else {return nil}
+            
+            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKPinAnnotationView
+            
+            if annotationView == nil  {
+                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+                annotationView?.canShowCallout = true
+            }
+            if let imageData = place.imageData {
+                let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+                imageView.layer.cornerRadius = 10
+                imageView.clipsToBounds = true
+                imageView.image = UIImage(data: imageData)
+                annotationView?.rightCalloutAccessoryView = imageView
+            }
+            
+            return annotationView
+        }
+    }
+extension MapViewController: CLLocationManagerDelegate {
+
+        func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+            checkLocationAutorization()
+        }
+    }

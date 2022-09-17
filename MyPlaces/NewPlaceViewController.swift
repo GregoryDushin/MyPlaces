@@ -16,7 +16,7 @@ class NewPlaceViewController: UITableViewController, UINavigationControllerDeleg
     var currentRating = 0.0
     
     
-    @IBOutlet weak var ratingControll: RaitingControl!
+
     @IBOutlet weak var placeType: UITextField!
     @IBOutlet weak var placeLocation: UITextField!
     @IBOutlet weak var placeName: UITextField!
