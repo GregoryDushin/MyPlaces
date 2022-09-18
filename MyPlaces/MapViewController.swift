@@ -28,7 +28,10 @@ class MapViewController: UIViewController {
     
     var incomeSegueIdentifire = ""
     
-
+    var placeCoordinate : CLLocationCoordinate2D?
+    
+    @IBOutlet weak var goButton: UIButton!
+    
     @IBOutlet weak var doneButton: UIButton!
     
     @IBOutlet weak var adressLabel: UILabel!
@@ -52,19 +55,27 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func centerViewInUserLocation(_ sender: Any) {
-       showUserLocation()
+        showUserLocation()
     }
+    
+    @IBAction func goButtonPressed() {
+        getDirections()
+    }
+    
     @IBAction func doneButtonPressed() {
         mapViewControllerDelegate?.getAdress(adressLabel.text)
         dismiss(animated: true)
     }
     
     private func setupMapView() {
+        goButton.isHidden = true
         if incomeSegueIdentifire == "showPlace" {
             setupPlacemark()
             mapPinImage.isHidden = true
             adressLabel.isHidden = true
             doneButton.isHidden = true
+            goButton.isHidden = false
+            
         }
     }
     
@@ -90,7 +101,7 @@ class MapViewController: UIViewController {
             guard let placeMarkLocation = placemark?.location else {return}
             
             annotation.coordinate = placeMarkLocation.coordinate
-            
+            self.placeCoordinate = placeMarkLocation.coordinate
             self.mapView.showAnnotations([annotation], animated: true)
             self.mapView.selectAnnotation(annotation, animated: true)
         }
@@ -113,7 +124,7 @@ class MapViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
-   
+    
     private func checkLocationAutorization() {
         let manager = CLLocationManager()
         switch manager.authorizationStatus {
@@ -121,7 +132,7 @@ class MapViewController: UIViewController {
             mapView.showsUserLocation = true
             
             if incomeSegueIdentifire == "getAdress" {
-         showUserLocation()
+                showUserLocation()
             }
             
             break
@@ -142,6 +153,52 @@ class MapViewController: UIViewController {
             print ("new methods are avaliable")
         }
         
+    }
+    private func getDirections(){
+        guard let location = locationManager.location?.coordinate else {
+            showAlert(title: "error", message: "current location is not found")
+            return
+        }
+        guard let request = createDirectionsRequest(from: location) else {
+            showAlert(title: "Error", message: "Destination is not found")
+            return
+        }
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { response, error in
+            if let error = error {
+                print ("error")
+                return
+            }
+            guard let response = response else {
+                self.showAlert(title: "Error", message: "Direction is not avaliable")
+                return
+            }
+            for route in response.routes {
+                self.mapView.addOverlay(route.polyline)
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                
+                let distance = String(format: "%.1f", route.distance/1000)
+                let timeInterval = route.expectedTravelTime
+                
+                print ("расстояние = \(distance) км")
+                print("время в пути = \(timeInterval) сек")
+            }
+        }
+    }
+    
+    private func createDirectionsRequest (from coordinate: CLLocationCoordinate2D) -> MKDirections.Request? {
+        guard let destinationCoordinate = placeCoordinate else {return nil}
+        let startingLocation = MKPlacemark(coordinate: coordinate)
+        let destination = MKPlacemark(coordinate: destinationCoordinate)
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startingLocation)
+        request.destination = MKMapItem(placemark: destination)
+        request.transportType = .automobile
+        request.requestsAlternateRoutes = true
+        
+        return request
     }
     
     private func getCenterLocation(for mapView: MKMapView) -> CLLocation{
@@ -165,56 +222,61 @@ class MapViewController: UIViewController {
     }
     
 }
-   
-    
-    extension MapViewController : MKMapViewDelegate {
-        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-            guard !(annotation is MKUserLocation) else {return nil}
-            
-            var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKPinAnnotationView
-            
-            if annotationView == nil  {
-                annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
-                annotationView?.canShowCallout = true
-            }
-            if let imageData = place.imageData {
-                let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-                imageView.layer.cornerRadius = 10
-                imageView.clipsToBounds = true
-                imageView.image = UIImage(data: imageData)
-                annotationView?.rightCalloutAccessoryView = imageView
-            }
-            
-            return annotationView
-        }
-        func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-            let center = getCenterLocation(for: mapView)
-            let geocoder = CLGeocoder()
-            geocoder.reverseGeocodeLocation(center) { placemarks, error in
-                if let error = error {
-                    print(error)
-                    return
-                }
-                guard let placemarks = placemarks else {return}
-                let placemark = placemarks.first
-                let streetName = placemark?.thoroughfare
-                let buildNumber = placemark?.subThoroughfare
-                
-                DispatchQueue.main.async {
-                    if streetName != nil && buildNumber != nil {
-                      self.adressLabel.text = "\(streetName!) , \(buildNumber!)"
-                    } else if streetName != nil {
-                        self.adressLabel.text = "\(streetName!)"
-                    } else {
-                        self.adressLabel.text = ""
-                    }
-                }
-            }
-        }
-    }
-extension MapViewController: CLLocationManagerDelegate {
 
-        func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-            checkLocationAutorization()
+
+extension MapViewController : MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else {return nil}
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: annotationIdentifier) as? MKPinAnnotationView
+        
+        if annotationView == nil  {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdentifier)
+            annotationView?.canShowCallout = true
+        }
+        if let imageData = place.imageData {
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+            imageView.layer.cornerRadius = 10
+            imageView.clipsToBounds = true
+            imageView.image = UIImage(data: imageData)
+            annotationView?.rightCalloutAccessoryView = imageView
+        }
+        
+        return annotationView
+    }
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        let center = getCenterLocation(for: mapView)
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(center) { placemarks, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let placemarks = placemarks else {return}
+            let placemark = placemarks.first
+            let streetName = placemark?.thoroughfare
+            let buildNumber = placemark?.subThoroughfare
+            
+            DispatchQueue.main.async {
+                if streetName != nil && buildNumber != nil {
+                    self.adressLabel.text = "\(streetName!) , \(buildNumber!)"
+                } else if streetName != nil {
+                    self.adressLabel.text = "\(streetName!)"
+                } else {
+                    self.adressLabel.text = ""
+                }
+            }
         }
     }
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        renderer.strokeColor = .red
+        return renderer
+    }
+}
+extension MapViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        checkLocationAutorization()
+    }
+}

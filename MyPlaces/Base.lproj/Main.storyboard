@@ -268,6 +268,21 @@
                                     <action selector="closeVC" destination="PRa-9W-nT6" eventType="touchUpInside" id="wAI-bu-3Wn"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1a-Vy-JT1">
+                                <rect key="frame" x="324" y="689" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="A0c-Xg-xnJ"/>
+                                    <constraint firstAttribute="height" constant="50" id="bPh-sg-hU3"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="paperplane" catalog="system" symbolScale="large" renderingMode="original"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="centerViewInUserLocation:" destination="PRa-9W-nT6" eventType="touchUpInside" id="qZo-yQ-wtR"/>
+                                </connections>
+                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand.point.up.left.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="h9v-WO-zUi">
                                 <rect key="frame" x="197" y="449.5" width="50" height="48"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -293,19 +308,19 @@
                                     <action selector="doneButtonPressed" destination="PRa-9W-nT6" eventType="touchUpInside" id="vgJ-bd-JMC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1a-Vy-JT1">
-                                <rect key="frame" x="324" y="689" width="50" height="50"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1G-PC-nQc">
+                                <rect key="frame" x="172.5" y="768" width="69" height="62"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="A0c-Xg-xnJ"/>
-                                    <constraint firstAttribute="height" constant="50" id="bPh-sg-hU3"/>
+                                    <constraint firstAttribute="height" constant="62" id="GF3-yY-V4R"/>
+                                    <constraint firstAttribute="width" constant="69" id="UGC-am-XYi"/>
                                 </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain">
-                                    <imageReference key="image" image="paperplane" catalog="system" symbolScale="large" renderingMode="original"/>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30"/>
+                                <buttonConfiguration key="configuration" style="plain" image="play.fill" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="40"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="centerViewInUserLocation:" destination="PRa-9W-nT6" eventType="touchUpInside" id="qZo-yQ-wtR"/>
+                                    <action selector="goButtonPressed" destination="PRa-9W-nT6" eventType="touchUpInside" id="5Ru-Ix-2YS"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -315,9 +330,11 @@
                             <constraint firstItem="UhL-PS-M9h" firstAttribute="leading" secondItem="n6L-Ra-diC" secondAttribute="leading" constant="20" id="1w4-lu-sAu"/>
                             <constraint firstItem="h9v-WO-zUi" firstAttribute="centerY" secondItem="Kz0-Pb-chZ" secondAttribute="centerY" constant="25" id="251-Ad-i0O"/>
                             <constraint firstItem="n6L-Ra-diC" firstAttribute="trailing" secondItem="UhL-PS-M9h" secondAttribute="trailing" constant="20" id="9EH-Ua-9xN"/>
+                            <constraint firstItem="l1G-PC-nQc" firstAttribute="centerX" secondItem="Kz0-Pb-chZ" secondAttribute="centerX" id="9bc-Jf-YY6"/>
                             <constraint firstItem="UhL-PS-M9h" firstAttribute="top" secondItem="Kz0-Pb-chZ" secondAttribute="topMargin" constant="213" id="AnI-o7-hmp"/>
                             <constraint firstItem="n6L-Ra-diC" firstAttribute="trailing" secondItem="qZZ-q1-egK" secondAttribute="trailing" constant="40" id="DsH-sJ-bTh"/>
                             <constraint firstItem="4b8-lc-F20" firstAttribute="trailing" secondItem="n6L-Ra-diC" secondAttribute="trailing" id="Hxb-1K-zwJ"/>
+                            <constraint firstItem="n6L-Ra-diC" firstAttribute="bottom" secondItem="l1G-PC-nQc" secondAttribute="bottom" constant="32" id="L79-hf-1BL"/>
                             <constraint firstAttribute="bottom" secondItem="4b8-lc-F20" secondAttribute="bottom" id="Lzy-zZ-sW8"/>
                             <constraint firstItem="n6L-Ra-diC" firstAttribute="bottom" secondItem="ZXh-sl-nQ2" secondAttribute="bottom" constant="38" id="SgT-WW-lLJ"/>
                             <constraint firstItem="qZZ-q1-egK" firstAttribute="top" secondItem="Kz0-Pb-chZ" secondAttribute="topMargin" constant="40" id="X28-8b-gXN"/>
@@ -332,6 +349,7 @@
                     <connections>
                         <outlet property="adressLabel" destination="UhL-PS-M9h" id="XRg-2a-VHw"/>
                         <outlet property="doneButton" destination="ZXh-sl-nQ2" id="DYZ-fM-grp"/>
+                        <outlet property="goButton" destination="l1G-PC-nQc" id="0KM-ci-7Bk"/>
                         <outlet property="mapPinImage" destination="h9v-WO-zUi" id="Zhe-vI-n4C"/>
                         <outlet property="mapView" destination="4b8-lc-F20" id="glS-12-w3r"/>
                     </connections>
@@ -545,6 +563,7 @@
         <image name="map" width="50" height="50"/>
         <image name="paperplane" catalog="system" width="128" height="118"/>
         <image name="photo" catalog="system" width="128" height="93"/>
+        <image name="play.fill" catalog="system" width="116" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
