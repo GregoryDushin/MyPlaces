@@ -3,6 +3,7 @@
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,6 +29,7 @@
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="U8h-Fm-isC">
                                                     <rect key="frame" x="0.0" y="1" width="414" height="247.5"/>
+                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t0M-D0-P19">
                                                     <rect key="frame" x="344" y="180" width="50" height="50"/>
@@ -38,7 +40,7 @@
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="map"/>
                                                     <connections>
-                                                        <segue destination="PRa-9W-nT6" kind="presentation" identifier="showMap" id="0lZ-TR-7CS"/>
+                                                        <segue destination="PRa-9W-nT6" kind="presentation" identifier="showPlace" modalPresentationStyle="fullScreen" id="0lZ-TR-7CS"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -96,16 +98,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="27T-oi-AnS">
-                                                    <rect key="frame" x="16" y="8" width="382" height="79"/>
+                                                    <rect key="frame" x="16" y="8" width="331" height="79"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hl-cz-4cj">
-                                                            <rect key="frame" x="0.0" y="0.0" width="382" height="24"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="331" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Place location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dAc-dJ-DCh">
-                                                            <rect key="frame" x="0.0" y="32" width="382" height="47"/>
+                                                            <rect key="frame" x="0.0" y="32" width="331" height="47"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
@@ -115,10 +117,28 @@
                                                         </textField>
                                                     </subviews>
                                                 </stackView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KHL-52-qrk">
+                                                    <rect key="frame" x="352" y="37" width="47" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="47" id="cy4-3n-EfL"/>
+                                                        <constraint firstAttribute="height" constant="47" id="oTG-RF-pkB"/>
+                                                    </constraints>
+                                                    <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <state key="normal" title="Button"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="location.viewfinder" catalog="system">
+                                                        <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35"/>
+                                                    </buttonConfiguration>
+                                                    <connections>
+                                                        <segue destination="PRa-9W-nT6" kind="presentation" identifier="getAdress" modalPresentationStyle="fullScreen" id="4fN-04-MUF"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="27T-oi-AnS" firstAttribute="top" secondItem="4cE-mU-ElR" secondAttribute="top" constant="8" id="4pX-xH-EXj"/>
-                                                <constraint firstAttribute="trailing" secondItem="27T-oi-AnS" secondAttribute="trailing" constant="16" id="YM7-6O-dl5"/>
+                                                <constraint firstAttribute="trailing" secondItem="KHL-52-qrk" secondAttribute="trailing" constant="15" id="7ah-MP-U73"/>
+                                                <constraint firstItem="KHL-52-qrk" firstAttribute="leading" secondItem="27T-oi-AnS" secondAttribute="trailing" constant="5" id="CGd-op-UHT"/>
+                                                <constraint firstItem="KHL-52-qrk" firstAttribute="top" secondItem="4cE-mU-ElR" secondAttribute="top" constant="37" id="Pv8-L3-IUa"/>
+                                                <constraint firstAttribute="bottom" secondItem="KHL-52-qrk" secondAttribute="bottom" constant="8" id="R51-nF-APg"/>
                                                 <constraint firstAttribute="bottom" secondItem="27T-oi-AnS" secondAttribute="bottom" constant="8" id="xBu-Ep-lgI"/>
                                                 <constraint firstItem="27T-oi-AnS" firstAttribute="leading" secondItem="4cE-mU-ElR" secondAttribute="leading" constant="16" id="xNX-wn-U27"/>
                                             </constraints>
@@ -227,11 +247,11 @@
             <objects>
                 <viewController id="PRa-9W-nT6" customClass="MapViewController" customModule="MyPlaces" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kz0-Pb-chZ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="4b8-lc-F20">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qZZ-q1-egK">
                                 <rect key="frame" x="344" y="84" width="30" height="30"/>
@@ -239,27 +259,80 @@
                                     <constraint firstAttribute="height" constant="30" id="SzG-gu-aE0"/>
                                     <constraint firstAttribute="width" constant="30" id="acm-Xo-oJO"/>
                                 </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="AZ">
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                <buttonConfiguration key="configuration" style="plain" image="clear.fill" catalog="system" imagePadding="10">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="27"/>
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="closeVC" destination="PRa-9W-nT6" eventType="touchUpInside" id="wAI-bu-3Wn"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hand.point.up.left.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="h9v-WO-zUi">
+                                <rect key="frame" x="197" y="449.5" width="50" height="48"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="85H-0v-iCZ"/>
+                                    <constraint firstAttribute="height" constant="50" id="Pbj-hv-8ho"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Adress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UhL-PS-M9h">
+                                <rect key="frame" x="20" y="257" width="374" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXh-sl-nQ2">
+                                <rect key="frame" x="160" y="774" width="94" height="50"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Done">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="30"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="doneButtonPressed" destination="PRa-9W-nT6" eventType="touchUpInside" id="vgJ-bd-JMC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z1a-Vy-JT1">
+                                <rect key="frame" x="324" y="689" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="A0c-Xg-xnJ"/>
+                                    <constraint firstAttribute="height" constant="50" id="bPh-sg-hU3"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain">
+                                    <imageReference key="image" image="paperplane" catalog="system" symbolScale="large" renderingMode="original"/>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="30"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="centerViewInUserLocation:" destination="PRa-9W-nT6" eventType="touchUpInside" id="qZo-yQ-wtR"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="n6L-Ra-diC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="UhL-PS-M9h" firstAttribute="leading" secondItem="n6L-Ra-diC" secondAttribute="leading" constant="20" id="1w4-lu-sAu"/>
+                            <constraint firstItem="h9v-WO-zUi" firstAttribute="centerY" secondItem="Kz0-Pb-chZ" secondAttribute="centerY" constant="25" id="251-Ad-i0O"/>
+                            <constraint firstItem="n6L-Ra-diC" firstAttribute="trailing" secondItem="UhL-PS-M9h" secondAttribute="trailing" constant="20" id="9EH-Ua-9xN"/>
+                            <constraint firstItem="UhL-PS-M9h" firstAttribute="top" secondItem="Kz0-Pb-chZ" secondAttribute="topMargin" constant="213" id="AnI-o7-hmp"/>
                             <constraint firstItem="n6L-Ra-diC" firstAttribute="trailing" secondItem="qZZ-q1-egK" secondAttribute="trailing" constant="40" id="DsH-sJ-bTh"/>
                             <constraint firstItem="4b8-lc-F20" firstAttribute="trailing" secondItem="n6L-Ra-diC" secondAttribute="trailing" id="Hxb-1K-zwJ"/>
                             <constraint firstAttribute="bottom" secondItem="4b8-lc-F20" secondAttribute="bottom" id="Lzy-zZ-sW8"/>
+                            <constraint firstItem="n6L-Ra-diC" firstAttribute="bottom" secondItem="ZXh-sl-nQ2" secondAttribute="bottom" constant="38" id="SgT-WW-lLJ"/>
                             <constraint firstItem="qZZ-q1-egK" firstAttribute="top" secondItem="Kz0-Pb-chZ" secondAttribute="topMargin" constant="40" id="X28-8b-gXN"/>
+                            <constraint firstItem="ZXh-sl-nQ2" firstAttribute="centerX" secondItem="Kz0-Pb-chZ" secondAttribute="centerX" id="Zdk-Xo-VQV"/>
                             <constraint firstItem="4b8-lc-F20" firstAttribute="top" secondItem="Kz0-Pb-chZ" secondAttribute="top" id="cx2-c5-gny"/>
                             <constraint firstItem="4b8-lc-F20" firstAttribute="leading" secondItem="n6L-Ra-diC" secondAttribute="leading" id="m2A-OO-DB9"/>
+                            <constraint firstItem="n6L-Ra-diC" firstAttribute="bottom" secondItem="Z1a-Vy-JT1" secondAttribute="bottom" constant="123" id="oX7-Uh-EfB"/>
+                            <constraint firstItem="n6L-Ra-diC" firstAttribute="trailing" secondItem="Z1a-Vy-JT1" secondAttribute="trailing" constant="40" id="vc7-4z-p9N"/>
+                            <constraint firstItem="h9v-WO-zUi" firstAttribute="centerX" secondItem="Kz0-Pb-chZ" secondAttribute="centerX" constant="15" id="wUa-Iz-dH8"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="adressLabel" destination="UhL-PS-M9h" id="XRg-2a-VHw"/>
+                        <outlet property="doneButton" destination="ZXh-sl-nQ2" id="DYZ-fM-grp"/>
+                        <outlet property="mapPinImage" destination="h9v-WO-zUi" id="Zhe-vI-n4C"/>
                         <outlet property="mapView" destination="4b8-lc-F20" id="glS-12-w3r"/>
                     </connections>
                 </viewController>
@@ -459,13 +532,18 @@
         </designable>
     </designables>
     <inferredMetricsTieBreakers>
+        <segue reference="4fN-04-MUF"/>
         <segue reference="Rez-ZT-HoB"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="AZ" width="25" height="24"/>
+        <image name="clear.fill" catalog="system" width="128" height="114"/>
         <image name="emptyStar" width="255" height="256"/>
         <image name="filledStar" width="237.5" height="238"/>
+        <image name="hand.point.up.left.fill" catalog="system" width="120" height="128"/>
+        <image name="location.viewfinder" catalog="system" width="128" height="115"/>
         <image name="map" width="50" height="50"/>
+        <image name="paperplane" catalog="system" width="128" height="118"/>
         <image name="photo" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

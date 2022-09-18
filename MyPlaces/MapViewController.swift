@@ -9,7 +9,14 @@ import UIKit
 import MapKit
 import CoreLocation
 
+protocol MapViewControllerDelegate {
+    func getAdress (_ adress: String?)
+}
+
+
 class MapViewController: UIViewController {
+    
+    var mapViewControllerDelegate: MapViewControllerDelegate?
     
     var place = Place()
     
@@ -17,20 +24,48 @@ class MapViewController: UIViewController {
     
     let locationManager = CLLocationManager()
     
+    let regionInMeters = 10000
+    
+    var incomeSegueIdentifire = ""
+    
+
+    @IBOutlet weak var doneButton: UIButton!
+    
+    @IBOutlet weak var adressLabel: UILabel!
+    
+    @IBOutlet weak var mapPinImage: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        adressLabel.text = ""
         mapView.delegate = self
-        setupPlacemark()
+        setupMapView()
         checkLocationServises()
+        
         
     }
     
     @IBAction func closeVC() {
         dismiss(animated: true)
+    }
+    
+    @IBAction func centerViewInUserLocation(_ sender: Any) {
+       showUserLocation()
+    }
+    @IBAction func doneButtonPressed() {
+        mapViewControllerDelegate?.getAdress(adressLabel.text)
+        dismiss(animated: true)
+    }
+    
+    private func setupMapView() {
+        if incomeSegueIdentifire == "showPlace" {
+            setupPlacemark()
+            mapPinImage.isHidden = true
+            adressLabel.isHidden = true
+            doneButton.isHidden = true
+        }
     }
     
     private func setupPlacemark() {
@@ -68,11 +103,9 @@ class MapViewController: UIViewController {
             checkLocationAutorization()
             
         }else{
-            
-            let alert = UIAlertController(title: .none, message: "Пожалуйста, включите геолокацию", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Location services are disabled", message: "Turn on location services")
+            }
         }
     }
     private func setupLocationManager() {
@@ -86,11 +119,17 @@ class MapViewController: UIViewController {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse :
             mapView.showsUserLocation = true
+            
+            if incomeSegueIdentifire == "getAdress" {
+         showUserLocation()
+            }
+            
             break
         case .denied :
-            let alert = UIAlertController(title: .none, message: "Пожалуйста, включите геолокацию", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showAlert(title: "Location services are disabled", message: "Turn on location services")
+            }
             break
         case .notDetermined :
             locationManager.requestWhenInUseAuthorization()
@@ -104,6 +143,27 @@ class MapViewController: UIViewController {
         }
         
     }
+    
+    private func getCenterLocation(for mapView: MKMapView) -> CLLocation{
+        let lattitude = mapView.centerCoordinate.latitude
+        let longitude = mapView.centerCoordinate.longitude
+        
+        return CLLocation(latitude: lattitude, longitude: longitude)
+        
+    }
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    private func showUserLocation(){
+        if let location = locationManager.location?.coordinate {
+            let region = MKCoordinateRegion(center: location, latitudinalMeters: 10000, longitudinalMeters: 10000)
+            mapView.setRegion(region, animated: true)
+        }
+    }
+    
 }
    
     
@@ -126,6 +186,30 @@ class MapViewController: UIViewController {
             }
             
             return annotationView
+        }
+        func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+            let center = getCenterLocation(for: mapView)
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(center) { placemarks, error in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                guard let placemarks = placemarks else {return}
+                let placemark = placemarks.first
+                let streetName = placemark?.thoroughfare
+                let buildNumber = placemark?.subThoroughfare
+                
+                DispatchQueue.main.async {
+                    if streetName != nil && buildNumber != nil {
+                      self.adressLabel.text = "\(streetName!) , \(buildNumber!)"
+                    } else if streetName != nil {
+                        self.adressLabel.text = "\(streetName!)"
+                    } else {
+                        self.adressLabel.text = ""
+                    }
+                }
+            }
         }
     }
 extension MapViewController: CLLocationManagerDelegate {

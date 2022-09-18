@@ -96,12 +96,21 @@ class NewPlaceViewController: UITableViewController, UINavigationControllerDeleg
     //MARK: Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier != "showMap" {return}
         
-        let mapVC = segue.destination as! MapViewController
-        mapVC.place.name = placeName.text!
-        mapVC.place.location = placeLocation.text
-        mapVC.place.type = placeType.text
+        guard
+            let identifier = segue.identifier,
+            let mapVC = segue.destination as? MapViewController
+            else { return }
+        
+        mapVC.incomeSegueIdentifire = identifier
+        mapVC.mapViewControllerDelegate = self
+        
+        if identifier == "showPlace" {
+            mapVC.place.name = placeName.text!
+            mapVC.place.location = placeLocation.text
+            mapVC.place.type = placeType.text
+            mapVC.place.imageData = placeImage.image?.pngData()
+        }
     }
     
     
@@ -183,4 +192,11 @@ extension NewPlaceViewController : UIImagePickerControllerDelegate {
         
         dismiss(animated: true)
     }
+}
+extension NewPlaceViewController: MapViewControllerDelegate {
+    func getAdress(_ adress: String?) {
+        placeLocation.text = adress
+    }
+    
+    
 }
